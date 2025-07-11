@@ -1,8 +1,8 @@
 import pygame
-
+import main_loop
 
 def main():
-    print("Hallo Welt")
+    main_loop.Main_loop()
 
 if __name__ == "__main__":
     main()
