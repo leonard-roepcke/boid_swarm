@@ -1,3 +1,8 @@
 import pygame
-print("Hallo Welt")
-x = 1
+
+
+def main():
+    print("Hallo Welt")
+
+if __name__ == "__main__":
+    main()
