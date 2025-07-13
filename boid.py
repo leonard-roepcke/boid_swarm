@@ -18,7 +18,7 @@ class Boid():
 
     def move(self):
         """Intern"""
-        abs_dir = math.radians(self.dir - 90)
+        abs_dir = math.radians(self.dir)
         self.pos = (self.pos[0] + math.cos(abs_dir) * self.speed, self.pos[1] + math.sin(abs_dir) * self.speed)
 
         if self.pos[0] < 0:
@@ -33,30 +33,70 @@ class Boid():
     
     def update_dir(self):
         """Intern"""
-        boids_in_radius = self.ref_boid_handler.get_boids_in_radius(self.pos, 100)
-        if len(boids_in_radius) > 0:
-            avg_angle = sum(b.dir for b in boids_in_radius) / len(boids_in_radius)
-            self.dir = (3*self.dir + avg_angle) / 4
+        # --- Vektoren für die drei Regeln initialisieren ---
+        cohesion_vector = [0, 0]
+        separation_vector = [0, 0]
+        alignment_vector = [0, 0]
+        
+        perception_radius = 100
+        separation_radius = 25
+        
+        neighbors = self.ref_boid_handler.get_boids_in_radius(self.pos, perception_radius)
+        
+        # Entferne den Boid selbst aus der Nachbarliste
+        neighbors = [b for b in neighbors if b is not self]
+        
+        if len(neighbors) > 0:
+            # --- 1. Zusammenhalt (Cohesion) ---
+            # Steuere in Richtung des Zentrums der lokalen Schwarmkameraden
+            avg_pos_x = sum(b.pos[0] for b in neighbors) / len(neighbors)
+            avg_pos_y = sum(b.pos[1] for b in neighbors) / len(neighbors)
+            cohesion_vector = [avg_pos_x - self.pos[0], avg_pos_y - self.pos[1]]
+
+            # --- 2. Ausrichtung (Alignment) ---
+            # Steuere in die gleiche Richtung wie die lokalen Schwarmkameraden
+            avg_dir_x = sum(math.cos(math.radians(b.dir)) for b in neighbors)
+            avg_dir_y = sum(math.sin(math.radians(b.dir)) for b in neighbors)
+            alignment_vector = [avg_dir_x, avg_dir_y]
+
+            # --- 3. Trennung (Separation) ---
+            # Vermeide das Zusammenstoßen mit lokalen Schwarmkameraden
+            close_neighbors = [b for b in neighbors if self.get_distance(b.pos) < separation_radius]
+            if len(close_neighbors) > 0:
+                for b in close_neighbors:
+                    diff_x = self.pos[0] - b.pos[0]
+                    diff_y = self.pos[1] - b.pos[1]
+                    separation_vector[0] += diff_x
+                    separation_vector[1] += diff_y
+
+        # --- Kombiniere die Vektoren und berechne die neue Richtung ---
+        # Sie können die Gewichtung anpassen, um das Verhalten zu ändern (z.B. cohesion_weight = 0.5)
+        final_vector_x = cohesion_vector[0] + separation_vector[0] + alignment_vector[0]
+        final_vector_y = cohesion_vector[1] + separation_vector[1] + alignment_vector[1]
+
+        if final_vector_x != 0 or final_vector_y != 0:
+            target_dir = math.degrees(math.atan2(final_vector_y, final_vector_x))
+            
+            # Korrigierte sanfte Drehung
+            # Berechne den kürzesten Winkel zwischen aktueller und Zielrichtung
+            angle_diff = target_dir - self.dir
+            if angle_diff > 180:
+                angle_diff -= 360
+            if angle_diff < -180:
+                angle_diff += 360
+            
+            # Wende einen Bruchteil der Drehung an, um die Drehung zu glätten
+            turn_speed = 0.25 
+            self.dir += angle_diff * turn_speed
         else:
-            self.dir += random.randint(-10, 10)
+            # Wenn keine Nachbarn da sind, bewege dich zufällig
+            self.dir += random.uniform(-5, 5)
 
-
-        boids_in_radius = self.ref_boid_handler.get_boids_in_radius(self.pos, 20)
-        if len(boids_in_radius) > 0:
-            avg_pos_x = sum(b.pos[0] for b in boids_in_radius) / len(boids_in_radius)
-            avg_pos_y = sum(b.pos[1] for b in boids_in_radius) / len(boids_in_radius)
-            avg_pos = (avg_pos_x, avg_pos_y)
-            self.check_boid_direction(avg_pos)
-
-    def get_distance(self, pos):
-        return math.hypot(self.pos[0] - pos[0], self.pos[1] - pos[1])
-
-    def check_boid_direction(self, pos):
-        """Intern"""
-        abs_dir = math.atan2(self.pos[1] - pos[1], self.pos[0] - pos[0])
-        self.dir = (self.dir*3 + math.degrees(abs_dir) + 180)/4
+        # Normalisiere den Winkel
         if self.dir < 0:
             self.dir += 360
         elif self.dir >= 360:
             self.dir -= 360
-    
+
+    def get_distance(self, pos):
+        return math.hypot(self.pos[0] - pos[0], self.pos[1] - pos[1])
