@@ -1,6 +1,5 @@
 import pygame
 import boid_handler
-global screen_size 
 screen_size = (1920, 1080)
 screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
 boids = boid_handler.Boid_handler(screen)
