@@ -15,6 +15,8 @@ def main_loop():
                     running = False
 
         screen.fill((0,0,0))
+        
         boids.update()
+
         clock.tick(60)
         pygame.display.flip()

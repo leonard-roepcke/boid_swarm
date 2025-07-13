@@ -14,7 +14,7 @@ def rotate_point(px, py, angle):
         return (px * cos_a - py * sin_a, px * sin_a + py * cos_a)
     
 def display_boid(screen, pos, angle=0):
-    """malle einen boid"""
+    """male einen boid"""
     real_points = []
     for dx, dy in points:
         rx, ry = rotate_point(dx, dy, angle)
