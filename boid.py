@@ -1,10 +1,12 @@
 import display
 import math
+import random
+
 class Boid():
     def __init__(self, screen, pos=(100, 100)):
         self.screen = screen
         self.pos = pos
-        self.dir = 90
+        self.dir = random.randint(0, 360)
         self.speed = 1
 
     def update(self):
