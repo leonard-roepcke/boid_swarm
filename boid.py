@@ -1,8 +1,8 @@
 
 # --- Gewichtungen für die Boid-Kräfte ---
-SEPARATION_WEIGHT = 1.5   # Trennung
-ALIGNMENT_WEIGHT = 3.0    # Ausrichtung
-COHESION_WEIGHT = 1.0     # Zusammenhalt
+SEPARATION_WEIGHT = 5.5  # Trennung
+ALIGNMENT_WEIGHT = 2    # Ausrichtung
+COHESION_WEIGHT = 0.8     # Zusammenhalt
 
 import display
 import math
@@ -14,7 +14,7 @@ class Boid():
         self.screen = screen
         self.pos = pos
         self.dir = random.randint(0, 360)
-        self.speed = 1
+        self.speed = 5
 
     def update(self):
         display.display_boid(self.screen, self.pos, angle=self.dir)
