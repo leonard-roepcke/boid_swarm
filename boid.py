@@ -1,3 +1,9 @@
+
+# --- Gewichtungen für die Boid-Kräfte ---
+SEPARATION_WEIGHT = 1.5   # Trennung
+ALIGNMENT_WEIGHT = 3.0    # Ausrichtung
+COHESION_WEIGHT = 1.0     # Zusammenhalt
+
 import display
 import math
 import random
@@ -70,9 +76,17 @@ class Boid():
                     separation_vector[1] += diff_y
 
         # --- Kombiniere die Vektoren und berechne die neue Richtung ---
-        # Sie können die Gewichtung anpassen, um das Verhalten zu ändern (z.B. cohesion_weight = 0.5)
-        final_vector_x = cohesion_vector[0] + separation_vector[0] + alignment_vector[0]
-        final_vector_y = cohesion_vector[1] + separation_vector[1] + alignment_vector[1]
+        # Gewichtung der Kräfte
+        final_vector_x = (
+            COHESION_WEIGHT * cohesion_vector[0]
+            + SEPARATION_WEIGHT * separation_vector[0]
+            + ALIGNMENT_WEIGHT * alignment_vector[0]
+        )
+        final_vector_y = (
+            COHESION_WEIGHT * cohesion_vector[1]
+            + SEPARATION_WEIGHT * separation_vector[1]
+            + ALIGNMENT_WEIGHT * alignment_vector[1]
+        )
 
         if final_vector_x != 0 or final_vector_y != 0:
             target_dir = math.degrees(math.atan2(final_vector_y, final_vector_x))

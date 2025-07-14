@@ -8,7 +8,7 @@ for dx, dy in points:
 
 def rotate_point(px, py, angle):
         """Nur Intern"""
-        angle_rad = math.radians(angle + 180)
+        angle_rad = math.radians(angle - 90) #180 init
         cos_a = math.cos(angle_rad)
         sin_a = math.sin(angle_rad)
         return (px * cos_a - py * sin_a, px * sin_a + py * cos_a)
