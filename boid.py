@@ -1,7 +1,7 @@
 
 # --- Gewichtungen für die Boid-Kräfte ---
-SEPARATION_WEIGHT = 5.5  # Trennung
-ALIGNMENT_WEIGHT = 3    # Ausrichtung
+SEPARATION_WEIGHT = 8  # Trennung
+ALIGNMENT_WEIGHT = 3.2    # Ausrichtung
 COHESION_WEIGHT = 0.8     # Zusammenhalt
 
 import display
