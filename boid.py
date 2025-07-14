@@ -99,12 +99,12 @@ class Boid():
             if angle_diff < -180:
                 angle_diff += 360
             
-            # Wende einen Bruchteil der Drehung an, um die Drehung zu glätten
-            turn_speed = 0.25 
+            # Wende einen kleineren Bruchteil der Drehung an, um die Drehung stärker zu dämpfen
+            turn_speed = 0.08  # Weniger als vorher für sanftere Drehung
             self.dir += angle_diff * turn_speed
         else:
-            # Wenn keine Nachbarn da sind, bewege dich zufällig
-            self.dir += random.uniform(-5, 5)
+            # Wenn keine Nachbarn da sind, behalte die aktuelle Richtung bei
+            pass
 
         # Normalisiere den Winkel
         if self.dir < 0:
