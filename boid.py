@@ -1,8 +1,11 @@
 
 # --- Gewichtungen für die Boid-Kräfte ---
-SEPARATION_WEIGHT = 8  # Trennung
-ALIGNMENT_WEIGHT = 3.2    # Ausrichtung
-COHESION_WEIGHT = 0.8     # Zusammenhalt
+SEPARATION_WEIGHT = 5  # Trennung
+ALIGNMENT_WEIGHT = 6.3   # Ausrichtung
+COHESION_WEIGHT = 1.5     # Zusammenhalt
+perception_radius = 70
+separation_radius = 23
+speed = 6
 
 import display
 import math
@@ -14,7 +17,6 @@ class Boid():
         self.screen = screen
         self.pos = pos
         self.dir = random.randint(0, 360)
-        self.speed = 5
 
     def update(self):
         display.display_boid(self.screen, self.pos, angle=self.dir)
@@ -25,7 +27,7 @@ class Boid():
     def move(self):
         """Intern"""
         abs_dir = math.radians(self.dir)
-        self.pos = (self.pos[0] + math.cos(abs_dir) * self.speed, self.pos[1] + math.sin(abs_dir) * self.speed)
+        self.pos = (self.pos[0] + math.cos(abs_dir) * speed, self.pos[1] + math.sin(abs_dir) * speed)
 
         if self.pos[0] < 0:
             self.pos = self.screen.get_width(), self.pos[1]
@@ -44,8 +46,7 @@ class Boid():
         separation_vector = [0, 0]
         alignment_vector = [0, 0]
         
-        perception_radius = 100
-        separation_radius = 25
+        
         
         neighbors = self.ref_boid_handler.get_boids_in_radius(self.pos, perception_radius)
         
