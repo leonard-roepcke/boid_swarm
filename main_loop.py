@@ -1,7 +1,11 @@
 import pygame
 import boid_handler
-screen_size = (1920, 1080)
-screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
+
+pygame.init()
+info = pygame.display.Info()
+
+# Vollbild, rahmenlos
+screen = pygame.display.set_mode((info.current_w, info.current_h), pygame.NOFRAME)
 boids = boid_handler.Boid_handler(screen)
 pygame.display.set_caption("Boid Swarm")
 clock = pygame.time.Clock()
@@ -14,7 +18,7 @@ def main_loop():
                 if event.type == pygame.QUIT:
                     running = False
 
-        screen.fill((0,0,0))
+        screen.fill((0,0,0, 0))
 
         boids.update()
 
