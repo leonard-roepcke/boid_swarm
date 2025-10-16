@@ -17,6 +17,7 @@ You can adjust their behavior, visualize them as prism-shaped polygons, and obse
 ```bash
 python main.py
 ```
-
+### 👥 Teamwork
+This project was created together with Jakob, who helped improve the movement and visuals of the boids.
 
 Note: README.md was writen by AI
