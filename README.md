@@ -16,5 +16,7 @@ You can adjust their behavior, visualize them as prism-shaped polygons, and obse
 
 ```bash
 python main.py
+```
+
 
 Note: README.md was writen by AI
