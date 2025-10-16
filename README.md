@@ -1,13 +1,6 @@
 # Boid Simulation
-
-A simple real-time boid simulation written in Python with Pygame.
-
----
-
-## 📜 English
-
 This project simulates a flock of boids (bird-like agents) that follow simple rules to create complex swarm behavior.  
-You can adjust their behavior, visualize them as prism-shaped polygons, and observe emergent patterns.
+You can adjust their behavior, visualize them as prism-shaped polygons, and observe emergent patterns. Writen in Python(pygame)
 
 ### ✅ Features
 - Boids steer using alignment, cohesion and separation
@@ -23,3 +16,5 @@ You can adjust their behavior, visualize them as prism-shaped polygons, and obse
 
 ```bash
 python main.py
+
+Note: README.md was writen by AI
